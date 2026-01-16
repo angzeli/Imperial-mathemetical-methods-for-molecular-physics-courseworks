@@ -1,0 +1,556 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath, amssymb, amsthm, physics}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{left=1in, right=1in, top=1in, bottom=1in}
+\setlength{\parindent}{0pt}
+\setcounter{secnumdepth}{0}
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+\usepackage{caption}
+
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\fancyhf{} % clear default header/footer
+\fancyhead[L]{\textcolor{gray}{\small Angze Li \quad CID: 02373494}}
+\fancyfoot[C]{\textcolor{gray}{\small \thepage}}
+
+\renewcommand{\footrulewidth}{0pt}  % no line above the footer (optional)
+
+\renewcommand{\headrulewidth}{0pt}  % no line under the header (optional)
+
+% Title Page
+\title{Mathematical Methods for Molecular Physics Coursework \#2} 
+\author{Angze Li \\ CID: 02373494 \\ Imperial College London}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\tableofcontents % Optional
+
+
+\newpage
+
+\section{1. Fourier analysis}
+
+\subsection{1.1 Fourier frequency spectra}
+\subsubsection*{a)}
+\begin{align}
+\tilde f(\omega)
+&= \frac{1}{2\pi}  \int^{+\infty}_{-\infty} dt\ e^{-i\omega t} f(t)\\
+&= \frac{1}{2\pi}  \int^{+\infty}_{-\infty} dt\ e^{-i\omega t} A\cos(\Omega t) \\
+&= \frac{A}{2\pi} \int^{+\infty}_{-\infty} dt\ e^{-i\omega t}\Big(\frac{e^{i\Omega t}+e^{-i\Omega t}}{2}\Big)\\
+&= \frac{A}{4\pi} \int^{+\infty}_{-\infty} dt\ \Big(e^{i(\omega-\Omega) t}+e^{i(-\omega-\Omega) t}\Big)\\
+&= \frac{A}{4\pi} \Big(2\pi \delta{(\omega-\Omega) }+2\pi \delta{(-\omega-\Omega) }\Big)\\
+&= \frac{A}{2} \Big( \delta{(\omega-\Omega) }+ \delta{(-\omega-\Omega) }\Big).
+\end{align}
+Since $\delta (x)=\delta(-x)$,
+$$\tilde f(\omega)=\frac{A}{2} \Big( \delta{(\omega-\Omega) }+ \delta{(\omega+\Omega) }\Big).
+$$
+\subsubsection*{b)}
+
+\begin{align}
+\tilde f(\omega)
+&= \frac{1}{2\pi} \int^{+\infty}_{-\infty} dt\ e^{-i\omega t} f(t)\\
+&= \frac{1}{2\pi} \int^{+\infty}_{-\infty} dt\ e^{-i\omega t} Ae^{-t/\tau}\cos(\Omega t) \theta(t).
+\end{align}
+Since $\theta(t)=1$ at $t>0$ and 0 at $t<0$,
+\begin{align}
+\tilde f(\omega)
+&= \frac{A}{2\pi} \int^{+\infty}_{0} dt\ e^{-i\omega t} e^{-t/\tau}\cos(\Omega t)\\
+&= \frac{A}{2\pi} \int^{+\infty}_{0} dt\ e^{(-i\omega-\frac{1}{\tau}) t} \frac{e^{i\Omega t}+e^{-i\Omega t}}{2} \\
+&= \frac{A}{4\pi} \int^{+\infty}_{0} dt\ e^{(i\Omega-i\omega-\frac{1}{\tau}) t}+e^{(-i\Omega-i\omega-\frac{1}{\tau}) t}.
+\end{align}
+Let $\alpha_1=[i(\Omega-\omega)-\frac{1}{\tau}]$ and $\alpha_2=[-i(\Omega+\omega)-\frac{1}{\tau}]$, then
+\begin{align}
+\tilde f(\omega)
+&= \frac{A}{4\pi} \int^{+\infty}_{0} dt\ e^{\alpha_1 t}+e^{\alpha_2 t}\\
+&= \frac{A}{4\pi} \Big[ \frac{e^{\alpha_1 t}}{\alpha_1}+\frac{e^{\alpha_2 t}}{\alpha_2}\Big]^{+\infty}_0
+\end{align}
+As the real part of $\alpha_1$ and $\alpha_2$ are negative, the integral is converged to 0:
+$$\lim_{t\to+\infty}e^{\alpha t}=0.$$
+\begin{align}
+\tilde f(\omega)
+&= \frac{A}{4\pi} \Big( -\frac{1}{\alpha_1}-\frac{1}{\alpha_2}\Big)\\
+&= \frac{-A}{4\pi}\Big( \frac{1}{i(\Omega-\omega)-\frac{1}{\tau}}+\frac{1}{-i(\Omega+\omega)-\frac{1}{\tau}}\Big)\\
+&= \frac{-A}{4\pi}\Big(\frac{-\frac{1}{\tau}}{(\frac{1}{\tau})^2+(\Omega-\omega)^2}-i\frac{\Omega-\omega}{(\frac{1}{\tau})^2+(\Omega-\omega)^2}+ \frac{-\frac{1}{\tau}}{(\frac{1}{\tau})^2+(\Omega+\omega)^2}-\frac{-(\Omega+\omega)}{(\frac{1}{\tau})^2+(\Omega+\omega)^2}\Big)\\
+&= \frac{-A}{4\pi}\Big[-\big(\frac{\frac{1}{\tau}}{(\frac{1}{\tau})^2+(\Omega-\omega)^2}+\frac{\frac{1}{\tau}}{(\frac{1}{\tau})^2+(\Omega+\omega)^2}\big)+i\big(\frac{\Omega+\omega}{(\frac{1}{\tau})^2+(\Omega+\omega)^2}- \frac{\Omega-\omega}{(\frac{1}{\tau})^2+(\Omega-\omega)^2}\big)
+\Big].
+\end{align}
+Therefore,
+\begin{align}
+\mathrm{Re} \big( \tilde f(\omega)\big)=\frac{A}{4\pi}\big(\frac{\tau}{1+(\Omega-\omega)^2\tau^2}+\frac{\tau}{1+(\Omega+\omega)^2\tau^2}\big),\\
+\mathrm{Im} \big( \tilde f(\omega)\big)=\frac{A}{4\pi}\big( \frac{\Omega-\omega}{(\frac{1}{\tau})^2+(\Omega-\omega)^2}-\frac{\Omega+\omega}{(\frac{1}{\tau})^2+(\Omega+\omega)^2}\big).
+\end{align}
+
+\subsubsection*{c)}
+We define the Lorentzian family (centred at $\omega_0$) as:
+$$L_\tau(\omega-\omega_0)\equiv  \frac{1}{\pi}\frac{\tfrac{1}{\tau}}{(\omega-\omega_0)^2+(\tfrac{1}{\tau})^2}
+=\frac{1}{\pi}\frac{\tau}{1+\tau^2(\omega-\omega_0)^2}.$$
+Let $x=\tau(\omega-\omega_0)$, then $d\omega= dx/\tau$. It can be proved that this expression is normalised:
+$$\int^{+\infty}_{-\infty}d\omega\ L_\tau(\omega-\omega_0)=\frac{1}{\pi}\int^{+\infty}_{-\infty}dx\frac{1}{1+x^2}=1$$
+using 
+$$\int^{+\infty}_{-\infty}dx\frac{1}{1+x^2}=\pi.$$
+As $\tau\to +\infty$, the width of $L_\tau$ scales as $1/\tau\to 0$ while the area remains $1$. Therefore, $L_\tau$ is a Delta-like function, and
+$$\lim_{\tau\to+\infty}L_\tau(\omega-\omega_0)\equiv\delta(\omega-\omega_0).$$
+We can rewrite the real part of the result as:
+$$\mathrm{Re} \big( \tilde f(\omega)\big)=\frac{A}{4}\big(L_\tau(\omega-\Omega)+L_\tau(\omega+\Omega) \big).$$
+Therefore,
+$$\lim_{\tau\to+\infty}\mathrm{Re} \big( \tilde f(\omega)\big)=\frac{A}{4}\big(\delta(\omega-\Omega)+\delta(\omega+\Omega) \big).$$
+\newpage
+\subsection{1.2 Fourier in 3D space}
+\subsubsection*{a)}
+\begin{align}
+\tilde U(q) &= \int_0^{+\infty} d\mathbf{r}\ e^{-i\mathbf q\mathbf r}U(|\mathbf r|)\\
+&= \int_0^{+\infty} dr\  r^2\int^{2\pi}_0d\phi\int ^\pi_0d\theta\ \sin\theta\cdot e^{-iqr\cos\theta}U(|\mathbf r|)\\
+&= \int_0^{+\infty} dr\  r^2\cdot2\pi\cdot U(|\mathbf r|)\int ^\pi_0d\theta\ \sin\theta\cdot e^{-iqr\cos\theta}.
+\end{align}
+Let $t=\cos\theta$, then $dt=-\sin\theta$,
+\begin{align}
+\tilde U(q) &=  \int_0^{+\infty} dr\ 2\pi r^2U(|\mathbf r|)\int ^{-1}_1dt\ - e^{iqrt}\\
+&= \int_0^{+\infty} dr\ 2\pi r^2U(|\mathbf r|)\cdot-\Big[\frac{1}{iqr}e^{iqrt} \Big]^{-1}_1 \\
+&= \int_0^{+\infty} dr\ 2\pi r^2U(|\mathbf r|)\cdot-\frac{1}{iqr}\big(e^{-iqr}-e^{iqr}\big)\\
+&= \int_0^{+\infty} dr\ 2\pi r^2U(|\mathbf r|)\cdot-\frac{1}{qr}2\sin(qr)\\
+&= \frac{4\pi}{q}\int_0^{+\infty} dr\ r\sin(qr)\cdot U(|\mathbf r|).
+\end{align}
+Let the Yukawa-like potential be
+$$U_\text{Y}(\mathbf{r})=k\frac{e^{-r/a}}{4\pi a^2r},$$
+where $k$ is a constant. Then,
+\begin{align}
+\tilde U(q) 
+&= \frac{4\pi}{q}\int_0^{+\infty} dr\ r\sin(qr)\cdot k\frac{e^{-r/a}}{4\pi a^2r}\\
+&= \frac{k}{qa^2}\int_0^{+\infty} dr\ \sin(qr)e^{-r/a}.
+\end{align}
+Using the standard integral,
+\begin{align}
+\tilde U(q) 
+&= \frac{k}{qa^2}\cdot \frac{aq}{1+a^2q^2}\\
+&=k\frac{1}{a+a^3q^2}.
+\end{align}
+Therefore,
+$$\tilde U(q)  \propto \frac{1}{a(1+a^2q^2)}.$$
+Since $a$ is also a constant,
+$$\tilde U(q)  \propto \frac{1}{1+a^2q^2}.$$
+As $V_{si}\propto\tilde U(q)$ and $\sigma(\mathbf{q})\propto |V_{si}|^2$,
+\begin{align}
+V_{si}(\mathbf{q})\propto\frac{1}{1+a^2q^2},\\
+\sigma(\mathbf{q})\propto \frac{1}{(1+a^2q^2)^2}.
+\end{align}
+
+\subsubsection*{b)}
+Since
+$$\sigma(q)\propto \frac{1}{(1+a^2q^2)^2}$$
+where $k$ is a constant, we can rearrange the expression as:
+$$\frac{1}{\sqrt{\sigma(q)}}\propto (1+a^2q^2).$$
+By plotting $\frac{1}{\sqrt{\sigma(q)}}$ against $q^2$, i.e., let $y$-coordinate and $x$-coodinate be $\frac{1}{\sqrt{\sigma(q)}}$ and $q^2$ respectively, $a$ can be easily determined by calculating the square root of the slope of the fitted line.
+
+\subsubsection*{c)}
+For a delta potential,
+$$U(\mathbf r)\propto \delta^{(3)}(\mathbf r)..$$
+We can write
+$$V_{si}\propto \int d\mathbf r\  e^{-i\mathbf q\mathbf r}\cdot\delta^{(3)}(\mathbf r).
+$$
+By applying the sifting property at $\mathbf r=\mathbf 0,$
+$$V_{si}\propto  e^{-i\mathbf q\mathbf0}= \text{const.}
+$$
+It is found that scattering cross-section $V_{si}$ is independent of $q$. Thus,
+$$\sigma(q)\propto |V_{si}|^2=\text{const.}
+$$
+\subsubsection*{d)}
+The integral over all space for the specific Yukawa potential can be computed by changing to spherical coordinates:
+\begin{align}
+\int d\mathbf r\ \frac{e^{-r/a}}{4\pi a^2r}
+&= \int_0^\infty dr \int_0^\pi d\theta \int_0^{2\pi} d\phi\  r^2\sin\theta\frac{e^{-r/a}}{4\pi a^2r}\\
+&= \int_0^\infty dr\ 4\pi r^2\cdot \frac{e^{-r/a}}{4\pi a^2r}\\
+&= \frac{1}{a^2}\int_0^\infty dr\  r\cdot e^{-r/a}\\
+&= \frac{1}{a^2}\Big[-are^{-r/a}-a^2e^{-r/a} \Big]^{r=+\infty}_{r=0}\\
+&= 1,
+\end{align}
+indicating the function is normalised.
+\\
+Consider the function at $a\to 0$, as the exponenatial decay is faster than any power of $a$,
+$$\forall r>0,\ \lim_{a\to 0} \frac{e^{-r/a}}{4\pi a^2r}=0.$$
+For any fixed $R>0$, the mass outside a sphere of radius $R$ vanishes as $a\to 0$:
+\begin{align}
+\int_{|\mathbf r|>R} d\mathbf r\ \frac{e^{-r/a}}{4\pi a^2r}
+&= \int_R^\infty dr\ \frac{1}{a^2}r e^{-r/a}
+= \int_{R/a}^\infty dx\ x e^{-x}\xrightarrow[a\to 0]{}0,
+\end{align}
+Hence the function becomes localised at $\mathbf r=\mathbf 0$ while remaining normalised, so it is delta-like and
+$$\lim_{a\to 0}\frac{e^{-r/a}}{4\pi a^2r}\equiv \delta^{(3)}(\mathbf r).$$
+\newpage
+\section{2. Scaling Analysis}
+\subsection{2.1 Quantum mechanics}
+\subsubsection*{a)}
+We consider a hydrogen atom where an electron of mass $m$ and charge $-e$ is bound by a proton of charge $+e$ at a confined Bohr radius $r$. The total energy of the electron can be determined by the sum of kinetic energy and potential energy. 
+
+Applying Heisenberg uncertainty principle, the scale of the momentum of the electron can be expressed as
+$$p\sim \frac{\hbar}{r}.$$
+And the kinetic energy scale is
+$$T=\frac{p^2}{2m}\sim \frac{\hbar^2}{2mr^2}.$$
+The potential energy experienced by the electron is
+$$V\sim-\frac{e^2}{4\pi\varepsilon_0r}.$$
+Therefore, the total energy scale is
+$$E=T+V\sim \frac{\hbar^2}{2mr^2}-\frac{e^2}{4\pi\varepsilon_0r}.$$
+The first derivation of the steady state must vanish:
+$$\frac{dE}{dr}\sim-\frac{\hbar^2}{mr^3}+\frac{e^2}{4\pi\varepsilon_0r^2}=0,$$
+which yields
+$$r\sim\frac{4\pi\varepsilon_0\hbar^2}{me^2}.$$
+This expression coincides with the exact Bohr radius:
+$$a_0=\frac{4\pi\varepsilon_0\hbar^2}{me^2}.$$
+The velocity scale can be determined from the momentum:
+$$v=\frac{p}{m}\sim\frac{\hbar}{mr}.$$
+Substituting $r=a_0$ gives
+$$v\sim\frac{e^2}{4\pi\varepsilon_0\hbar}.$$
+This expression also coincides with the exact term:
+$$v=\frac{e^2}{4\pi\varepsilon_0\hbar}.$$
+Therefore, the exact expression of total energy at Bohr radius is
+\begin{align}
+E(a_0)
+&= T(a_0)+V(a_0)\\
+&= \frac{1}{2}mv^2-\frac{e^2}{4\pi\varepsilon_0r}\\
+&=\frac{1}{2}m\Big(\frac{e^2}{4\pi\varepsilon_0\hbar}\Big)^2-\frac{e^2}{4\pi\varepsilon_0\frac{4\pi\varepsilon_0\hbar^2}{me^2}}\\
+&=-\frac{1}{2}\frac{me^4}{(4\pi\varepsilon_0\hbar)^2}.
+\end{align}
+\subsubsection*{b)}
+We consider an electron of mass $m$ and charge $-e$ at a 1D square barrier of height $U$ with energy $E<U$. The Schrodinger equation of the electron can be written as
+$$-\frac{\hbar^2}{2m}\frac{d^2\psi}{dx^2}+U\psi=E\psi.$$
+The tunneling \textit{probability} decays exponentially and scales as
+$$P(\text{transmission})\sim e^{-2ak},$$
+where $k=1/\lambda$ ($[k]=\text{m}^{-1}$) and $\lambda$ is the tunneling decay length.
+
+The energy deficit can be defined as $E_{\text{def}}=U-E$.
+
+The local decay of the wavefunction can only depend on the particle mass $m$ ($[m]=\text{kg}$), the energy deficit $E_{\text{def}}$ ($[E_{\text{def}}]=\text{kg m}^2\text{s}^{-2}$) , and Planck’s constant $\hbar$ ($[\hbar]=\text{kg m}^2\text{s}^{-1}$). A dimensional analysis can then be carried out:
+$$k\sim m^{\alpha}E_{\text{def}}^\beta\hbar^\gamma,$$
+where $\alpha$, $\beta$ and $\gamma$ are constant.
+\begin{align}
+[k]
+&\sim \text{kg}^{\alpha}\cdot (\text{kg m}^2\text{s}^{-2})^\beta\cdot(\text{kg m}^2\text{s}^{-1})^\gamma\\
+&\sim \text{kg}^{\alpha+\beta+\gamma} \cdot \text{m}^{2\beta+2\gamma}\cdot \text{s}^{-2\beta-\gamma}
+\end{align}
+Therefore, solving this set of equations
+\begin{align}
+\left\{
+\begin{aligned}
+& \alpha+\beta+\gamma=0 \\
+& 2\beta+2\gamma=-1 \\
+& -2\beta-\gamma=0
+\end{aligned}
+\right.
+\end{align}
+gives $\alpha=\beta=1/2,\ \gamma=-1$. Hence we can write $k$ as
+$$k\sim\frac{\sqrt{mE_{\text{def}}}}{\hbar}.$$
+
+Considering the transmission probability, the scaling result obtained can be interpreted physically as follows:
+
+I. The decay constant scales as $k\propto \sqrt{m}$, indicating that heavier particles experience a stronger exponential suppression under the barrier. Consequently, heavier particles tunnel less efficiently than lighter ones.
+
+II. The decay constant increases with the energy deficit $E_{\text{def}}$. As the particle energy approaches the barrier height ($E_{\text{def}}\to 0^+$), $k\to 0$ and the exponential suppression weakens, enhancing tunnelling. For $E_{\text{def}}<0$, the region becomes classically allowed, the decay constant becomes imaginary, and the wavefunction is oscillatory rather than evanescent, so tunnelling ceases to be the relevant process.
+
+III. Planck’s constant $\hbar$ controls the degree of quantum delocalisation. Since $k\propto \hbar^{-1}$, increasing $\hbar$ reduces the decay rate and enhances tunnelling. In the classical limit $\hbar\to 0$, $k\to\infty$ and the wavefunction cannot penetrate the barrier, demonstrating that tunnelling is a purely quantum effect.
+\newpage
+\subsection{2.2 Transport phenomena in electrolytes}
+\subsubsection*{a)}
+The current density is defined as $j=I/A$. In a time interval $\Delta t$, ions with number density $n$, charge $ze$ and drift velocity $v$ cross an area $A$ from a slab of thickness $v\Delta t$. The number of ions crossing is $nA v\Delta t$, carrying total charge $\Delta Q = nA v\Delta t \cdot ze$. Hence
+\[
+j=\frac{1}{A}\frac{\Delta Q}{\Delta t}=nzev.
+\]
+\subsubsection*{b)}
+Since $v=\mu E$,
+\begin{align}
+[v]=[\mu E]&\Rightarrow \text{m s}^{-1}=[\mu]\cdot  \text{kg m}\ \text{s}^{-3} \text{A}^{-1}
+\\
+&\Rightarrow [\mu] = \text{kg}^{-1} \text{s}^{2} \text{A}
+\end{align}
+\subsubsection*{c)}
+Since $j=nzev$ and $v=\mu E$,
+$$j=nze\mu E.$$
+With $j=\sigma E$, the relation between conductivity and mobility can be written as
+$$\sigma=nze\mu.$$
+The dimensionality of conductivity can determined as follows:
+\begin{align}
+[\sigma]
+&= [nze\mu]\\
+&= \text{m}^{-3}\cdot\text{A s}\cdot\text{kg}^{-1} \text{s}^{2} \text{A}\\
+&= \text{kg}^{-1} \text{m}^{-3} \text{s}^{3} \text{A}^2.
+\end{align}
+
+\newpage
+\subsection{2.3 Chemical kinetics}
+\subsubsection*{a)}
+For a second-order bimolecular reaction with rate equation as
+$$\frac{dA}{dt}=-KA^2,$$
+where $A$ represents volume concentration, the dimensionality of rate constant can be determined as follows:
+\begin{align}
+[K]
+&= [-A^{-2}\frac{dA}{dt}]\\
+&= \text{m}^{6}\cdot \text{m}^{-3}\text{s}^{-1}\\
+&= \text{m}^{3}\text{s}^{-1}.
+\end{align}
+
+\subsubsection*{b)}
+The mean-free path length $\lambda$ can be estimated as
+$$\lambda=\Big(\frac{V}{N}\Big)^\alpha\frac{1}{\sigma^\beta},$$
+where $\alpha$ and $\beta$ are constants.
+Dimensional analysis gives
+$$\text{m}=\text{m}^{3\alpha-2\beta}.$$
+Therefore the simplest solution for the assumption is $\alpha=\beta=1$, and 
+$$\lambda=\frac{V}{\sigma N}.$$
+The relative speed of each collision of molecules $v_c$ is then
+$$v_c=\frac{\lambda}{\tau}=\frac{V}{\tau\sigma N}.$$
+Consider the dimensionality, the rate constant can be estimated by multiplying the speed of collision by the cross-section of the molecules:
+$$K\sim v_c\sigma=\frac{V}{\tau N}.$$
+This estimate is physically sensible because a bimolecular reaction rate is controlled by the frequency of molecular encounters.
+\subsubsection*{c)}
+For gas molecules, applying equipartition for translational motion gives
+$$\frac{1}{2}mv^2=\frac{3}{2}k_BT \Rightarrow v=\sqrt{\frac{3k_BT}{m}}.$$
+With the conclusion in 2.3 b) and that $v_c\sim v$, we can write the scaling expressions for $\tau$ and $K$ as:
+\begin{align}
+\left\{
+\begin{aligned}
+& \tau\sim\frac{\lambda}{v}= \frac{V}{\sigma N}\sqrt{\frac{m}{3k_BT}}\\
+& K \sim v_c\sigma=\sqrt{\frac{3k_BT}{m}} \sigma \\
+\end{aligned}
+\right.
+\end{align}
+\newpage
+\section{3. Solving Equations}
+\subsection{3.1 Using Lagrange and Newton methods}
+\subsubsection*{a)}
+For the equation $a\phi+b\phi^3-h=0$, we can rewrite it as
+$$h=a\phi+b\phi^3.$$
+
+For the case of large $h$, the solution $\phi$ is expected to be large, so the cubic term dominates over the linear term. We therefore factor out the leading cubic behaviour by writing
+$$\phi(h)=\left(\frac{h}{b}\right)^{1/3}y,$$
+where $y\to 1$ as $h\to\infty$.
+
+Substituting this form into the equation gives
+$$h=b\left(\frac{h}{b}\right)y^3+a\left(\frac{h}{b}\right)^{1/3}y
+=hy^3+a\left(\frac{h}{b}\right)^{1/3}y.$$
+Dividing by $h$ on both sides yields
+$$y^3-1+\delta\,y=0,\ \text{where}\ \delta=\frac{a}{b^{1/3}h^{2/3}}.$$
+
+
+Since $h$ is large, $\delta\ll1$, and we can expand the solution as a series in $\delta$ as
+$$y=1+c_1\delta+c_2\delta^2+c_3\delta^3+O(\delta^4),$$
+where $c_1$, $c_2$, $c_3$ are constants.
+
+Substituting this expansion into the equation and equating coefficients order by order in $\delta$ gives
+$$c_1=-\frac{1}{3},\ c_2=0,\ c_3=\frac{1}{81}.$$
+
+Hence,
+$$y=1-\frac{1}{3}\delta+\frac{1}{81}\delta^3+O(\delta^4).$$
+Substituting back for $\phi$, we obtain the large-$h$ asymptotic solution
+$$\phi(h)
+=\frac{1}{b^{1/3}} h^{1/3}
+-\frac{a}{3b^{2/3}}\,h^{-1/3}
++\frac{a^3}{81b^{4/3}}\,h^{-5/3}
++O(h^{-3}).$$
+The perturbation theory from the lecture gives the result as
+$$\phi\approx\Big(\frac{h}{b}\Big)^{1/3},$$
+which is exactly the first term of the solution here.
+\subsubsection*{b)}
+For the equation 
+$$e^{-ax}=bx,$$
+with \textit{common sense}, if $b\gg a$, the linear function bx rises very steeply from the origin, while the exponential $e^{-ax}$ varies slowly for small $x$. The intersection therefore occurs at a small value of $x$, for which $ax\ll1$ and the exponential remains close to unity, $e^{-ax}\approx1$. The equation then reduces to $bx\approx1$, yielding the estimate
+$$x\approx\frac{1}{b}.$$
+
+On the other hand, if $a\gg b$, the RHS is small for any reasonable value of $x$. Therefore, the LHS must also be small, which requires $ax\gg 1$. This implies that the solution occurs at a value of $x$ slightly larger than the characteristic scale $1/a$. In this regime, the linear term has magnitude $bx\sim b/a$, so consistency of the equation requires
+$$e^{-ax}\sim \frac{b}{a}.$$
+
+Taking logarithms then yields
+$ax \sim \ln\!\left(\frac{a}{b}\right),$
+and hence
+$$x \approx \frac{1}{a}\ln(\frac{a}{b}).$$
+
+With Newton's method, we create a new function $f(x)$ such that
+$$f(x)=e^{-ax}-bx,$$
+where the derivative of $f(x)$ is
+$$f'(x)=-ae^{-ax}-b.$$
+If $b\gg a$, $x_0\approx1/b$, and
+\begin{align}
+x_1
+&= x_0-\frac{f(x_0)}{f'(x_0)}\\
+&= \frac{1}{b}+\frac{e^{-a/b}-1}{ae^{-a/b}+b}.
+\end{align}
+If $a\gg b$, $x_0\approx1/a\ln(a/b)$, and 
+\begin{align}
+x_1
+&= x_0-\frac{f(x_0)}{f'(x_0)}\\
+&= \frac{1}{a}\ln(\frac{a}{b})-\frac{e^{-a\cdot\frac{1}{a}\ln(\frac{a}{b})}-b\cdot\frac{1}{a}\ln(\frac{a}{b})}{-ae^{-a\cdot\frac{1}{a}\ln(\frac{a}{b})}-b}\\
+&= \frac{1}{a}\ln(\frac{a}{b})-\frac{e^{-\ln(\frac{a}{b})}-\frac{b}{a}\ln(\frac{a}{b})}{-ae^{-\ln(\frac{a}{b})}-b}\\
+&= \frac{1}{a}\ln(\frac{a}{b})-\frac{\frac{b}{a}(1-\ln(\frac{a}{b}))}{-2b}\\
+&= \frac{\ln(\frac{a}{b})}{2a}+\frac{1}{2a}.
+\end{align}
+For the case of $b\gg a$, the first Newton correction is close to 0 as $(e^{-a/b}-1)\approx 0$, and the result from \textit{common sense} and from Newton's method (in the first-order) will be nearly identical. For the case of $a\gg b$, the discrepancy is much greater, as $x_1/x_0\approx1/2$. Newton's method provides a much more accurate estimate here.
+\newpage
+\section{4. Evaluating Integrals}
+\subsection{4.1 Using Laplace method}
+Let $f(x)=x^pe^{-\sqrt x}$, then the integral can be written as 
+$$I(p)=\int^{+\infty}_0dx\ f(x).$$
+We can rewrite the integral:
+\begin{align}
+I(p)
+&= \int^{+\infty}_0dx\ e^{\ln f(x)}\\
+&= \int^{+\infty}_0dx\ e^{p[\frac{1}{p}\ln f(x)]}\\
+&= \int^{+\infty}_0dx\ e^{pH(x)},
+\end{align}
+where $H(x)=\frac{1}{p}\ln f(x)=\frac{1}{p}\ln(x^pe^{-\sqrt x})$.
+The first and second derivative of $H(x)$ are
+\begin{align}
+\left\{
+\begin{aligned}
+& H'(x)=-\frac{1}{2p}x^{-\frac{1}{2}}+x^{-1}
+\\
+& H''(x)=\frac{1}{4p}x^{-\frac{3}{2}}-x^{-2}
+\end{aligned}
+\right.
+\end{align}
+The $H(x)$ has maximum at $H'(x)=0$, and
+$$-\frac{1}{2p}x^{-\frac{1}{2}}+x^{-1}=0\Rightarrow x^*=4p^2.$$
+Since $p\gg1$, $x^*$ must also be much greater than 1, and therefore
+\begin{align}
+I(p)
+&\approx \int^{+\infty}_{-\infty}dx\ e^{pH(x)}\\
+&\approx e^{pH(x^*)}\int^{+\infty}_{-\infty}dx\ e^{-\frac{1}{2}p\big(-H''(x^*)\big)(x-x^*)^2}\\
+&= e^{p\frac{1}{p}\ln((4p^2)^pe^{-\sqrt {4p^2}})}\int^{+\infty}_{-\infty}dx\ e^{\frac{1}{2}p\big(\frac{1}{4p}(4p^2)^{-\frac{3}{2}}-(4p^2)^{-2}\big)(x-4p^2)^2}\\
+&= 4^pp^{2p}e^{-2p}\int^{+\infty}_{-\infty}dx\ e^{\frac{1}{2}p\big(\frac{1}{4p}\frac{1}{8p^3}-\frac{1}{16p^4}\big)(x-4p^2)^2}\\
+&= 4^pp^{2p}e^{-2p}\int^{+\infty}_{-\infty}dx\ e^{-\frac{1}{64p^3}(x-4p^2)^2}.
+\end{align}
+It can be noticed that the integral has a Gaussian shape, and hence
+$$\int_{-\infty}^{+\infty}dx\ e^{-\frac{1}{64p^3}(x-4p^2)^2}
+=\sqrt{2\pi}\,\sqrt{32p^3}
+=\sqrt{64\pi p^3}
+=8\sqrt{\pi}p^{3/2}.$$
+Therefore,
+\begin{align}
+I(p)
+&\approx 4^pp^{2p}e^{-2p}8\sqrt{\pi}p^{3/2}\\
+&= 2^{3+2p}\sqrt{\pi}\ p^{2p+3/2}e^{-2p}.
+\end{align}
+\newpage
+\subsection{4.2 Countour integration}
+\subsubsection*{a)}
+Applying $\cos px=\frac{1}{2}(e^{ipx}+e^{-ipx})$, the integral becomes
+\begin{align}
+F(p,b)
+&= \int^{+\infty}_{0}dx\ \frac{\frac{1}{2}(e^{ipx}+e^{-ipx})}{(x^2+b^2)^2}\\
+&= \frac{1}{2}\Big( \int^{+\infty}_{0}dx\ \frac{e^{ipx}}{(x^2+b^2)^2}+\int^{+\infty}_{0}dx\ \frac{e^{-ipx}}{(x^2+b^2)^2}\Big)\\
+&= \frac{1}{2}\Big( \int^{+\infty}_{0}dx\ \frac{e^{ipx}}{(x^2+b^2)^2}-\int^{+\infty}_{0}d(-x)\ \frac{e^{ip(-x)}}{((-x)^2+b^2)^2}\Big)\\
+&= \frac{1}{2}\Big( \int^{+\infty}_{0}dx\ \frac{e^{ipx}}{(x^2+b^2)^2}-\int^{-\infty}_{0}dx\ \frac{e^{ipx}}{(x^2+b^2)^2}\Big)\\
+&= \frac{1}{2}\Big( \int^{+\infty}_{0}dx\ \frac{e^{ipx}}{(x^2+b^2)^2}+\int^{0}_{-\infty}dx\ \frac{e^{ipx}}{(x^2+b^2)^2}\Big)\\
+&= \frac{1}{2}\int^{+\infty}_{-\infty}dx\ \frac{e^{ipx}}{(x^2+b^2)^2}.
+\end{align}
+Define 
+$$f(z)=\frac{e^{ipz}}{(z^2+b^2)^2},$$
+then the residue theorem can be applied to $f(z)$ where the poles occur when the denominator is 0, i.e.
+$$(z^2+b^2)^2=0\Rightarrow z_0=\pm ib,$$
+both of which are second-order poles.
+
+Since $\cos px$ is even, here we assume $p>0$, which does not affect the calculations.
+For $p>0$, the contour is closed in the upper half-plane since $e^{ipz}$ decays exponentially as $\Im (z)\to+\infty$, so only the pole at $z_0=ib$ contributes.
+We can compute the residue of the pole as
+\begin{align}
+\text{Res} f(z)
+&= \lim_{z\to z_0}\frac{d}{dz}\Big[(z-ib)^2f(z)\Big]\\
+&= \lim_{z\to z_0}\frac{d}{dz}\Big[(z-ib)^2\frac{e^{ipz}}{(z^2+b^2)^2}\Big]\\
+&= \lim_{z\to z_0}\frac{d}{dz}\Big[(z-ib)^2\frac{e^{ipz}}{(z+ib)^2(z-ib)^2}\Big]\\
+&= \lim_{z\to z_0}\frac{d}{dz}\Big[\frac{e^{ipz}}{(z+ib)^2}\Big]\\
+&= \lim_{z\to z_0}\frac{ipe^{ipz}}{(z+ib)^2}-\frac{2e^{ipz}}{(z+ib)^3}.
+\end{align}
+At the upper contour where $z_0=ib$,
+\begin{align}
+\text{Res} f(z)
+&= \frac{ipe^{ip\cdot ib}}{(2ib)^2}-\frac{2e^{ip\cdot ib}}{(2ib)^3}\\
+&= \frac{ipe^{-pb}}{-4b^2}-\frac{2e^{-pb}}{-8ib^3}\\
+&= \frac{-ie^{-pb}}{4b^2}(\frac{1}{b}+p)
+\end{align}
+Then the integral can be evaluated as 
+\begin{align}
+F(p,b)
+&= \frac{1}{2}2\pi i\cdot Res\ f(ib)\\
+&= \pi i\cdot \frac{-ie^{-pb}}{4b^2}(\frac{1}{b}+p)\\
+&= \frac{\pi e^{-pb}}{4b^2}(\frac{1}{b}+p).
+\end{align}
+For generality of the sign of $p$, we can rewrite the result as
+$$F(p,b)=\frac{\pi e^{-|p|b}}{4b^2}(\frac{1}{b}+|p|).$$
+Note that the final result of the integral is real.
+\subsubsection*{b)}
+The result of $I(p,b)$ is 
+$$I(p,b)=\frac{\pi}{2b}e^{-pb}.$$
+
+We can notice that differentiate $I(p,b)$ with respect to $b$ can yield an expression similar to $F(b)$:
+$$\frac{\partial I(p,b)}{\partial b}=\frac{\partial}{\partial b}\int^{+\infty}_{0}dx\ \frac{\cos px}{(x^2+b^2)}=\int^{+\infty}_{0}dx\ \frac{-2b\cos px}{(x^2+b^2)^2}=-2bF(p,b).$$
+Substituting $F(p,b)$ gives
+$$\frac{\partial I(p,b)}{\partial b}=\frac{-\pi e^{-pb}}{2b^2}(1+pb)$$
+This partial derivative can also be directly calculated:
+\begin{align}
+\frac{\partial I(p,b)}{\partial b}
+&= \frac{\partial }{\partial b}\frac{\pi}{2b}e^{-pb}\\
+&=\frac{\pi}{2}(-\frac{e^{-pb}}{b^2}+\frac{-pe^{-pb}}{b} \\
+&= \frac{-\pi e^{-pb} }{2b^{2}}(1+pb),
+\end{align}
+which reproduces the result exactly, and thus validating the contour result.
+
+
+\subsubsection*{c)}
+Substituting $U(r)$ into the expression of $\tilde U(q)$ derived in question 1 gives
+$$\tilde U(q)=\frac{4\pi}{q}\int^{+\infty}_{0}dr\ \frac{r\sin (qr)}{\cosh(r/a)}.$$
+Let $x=r/a$, then $dr=a\ dx$, and 
+$$\tilde U(q)=\frac{4\pi a^2}{q}\int^{+\infty}_0 dx\ \frac{x\sin (qax)}{\cosh x}.$$
+To evaluate this integral, we first consider the auxiliary integral
+$$I(\alpha)=\int_0^{+\infty} dx\ \frac{\cos(\alpha x)}{\cosh x},
+$$
+where $\alpha=qa$. The required integral can then be obtained by differentiation, since
+$$\int^{+\infty}_0 dx\ \frac{x\sin(\alpha x)}{\cosh x}
+=
+-\frac{dI}{d\alpha}.$$
+
+Define
+$$f(z)=\frac{e^{i\alpha z}}{\cosh z}.$$
+The poles of $f(z)$ occur when denominator $\cosh z=0$. Using the exponential definition,
+$$\cosh z=\frac{1}{2}(e^z+e^{-z})=0 \Rightarrow e^{2z}=-1,$$
+With Euler's identity, we obtain
+$$e^{2z}=e^{i(\pi+2k\pi)},$$
+where $k\in Z$, which gives
+$$z=\frac{i}{2}(\pi+2k\pi).$$
+
+In the simple region of $0<\Im (z)<\pi$, we have one simple pole at $z_0=i\pi/2$. Expanding $\cosh z$ about $z_0$ gives
+$$\cosh z=\cosh(z_0)+\sinh(z_0)(z-z_0)+O\!\left((z-z_0)^2\right),$$
+and since $\sinh(i\pi/2)=i$, we obtain
+\begin{align}
+\text{Res} f(z)
+&=\lim_{z\to z_0}\Big[(z-z_0)\frac{e^{i\alpha z_0}}{\cosh(z_0)+\sinh(z_0)(z-z_0)+O\!\left((z-z_0)^2\right)}\Big]\\
+&= \lim_{z\to z_0}\Big[(z-z_0)\frac{e^{i\alpha z_0}}{i(z-z_0)+O\!\left((z-z_0)^2\right)}\Big]\\
+&= -ie^{-\alpha\pi/2}.
+\end{align}
+
+Using a rectangular contour of height $i\pi$, the contributions from the vertical sides vanish as the width tends to infinity. Moreover, since $\cosh(z+i\pi)=-\cosh z$, the contributions from the top and bottom edges combine to give
+$$\oint dz\ f(z)= 2\int^{+\infty}_{-\infty}dx\ \frac{e^{i\alpha x}}{\cosh x}.$$
+
+By the residue theorem,
+$$\oint dz\ f(z) = 2\pi i\,\operatorname{Res} f(z_0) = 2\pi e^{-\alpha\pi/2}.$$
+Hence
+$$\int^{+\infty}_{-\infty}dx\ \frac{e^{i\alpha x}}{\cosh x} = \pi e^{-\alpha\pi/2}.$$
+
+Using Euler’s formula $e^{i\alpha x}=\cos(\alpha x)+i\sin(\alpha x)$, we take the real part of the integral. Since $\sin(\alpha x)$ is odd while $\cosh x$ is even, the imaginary part vanishes over $(-\infty, +\infty)$. The remaining integrand is even, so the integral over $(-\infty,+\infty)$ is twice that over $(0,+\infty)$, and therefore
+$$I(\alpha)=\int_0^{+\infty} dx\ \frac{\cos(\alpha x)}{\cosh x} =\frac{\pi}{2} e^{-\alpha\pi/2}.$$
+Note that since $e^{-\alpha\pi/2}=\text{sech}(\pi\alpha/2)$, we have
+$$I(\alpha) =\frac{\pi}{2}\,\text{sech}\ (\frac{\pi\alpha}{2}).$$
+Differentiating $I(\alpha)$ gives
+\begin{align}
+\int_0^{+\infty} dx\ \frac{x\sin(\alpha x)}{\cosh x}\,dx
+&=-\frac{dI}{d\alpha}\\
+&= \frac{\pi^2}{4}\ \text{sech}(\frac{\pi\alpha}{2})\tanh(\frac{\pi\alpha}{2}).
+\end{align}
+Substituting $\alpha=qa$ and returning to $\tilde U(q)$, we obtain
+$$\tilde U(q)=\frac{\pi^2 a^2}{q}
+\text{sech}(\frac{\pi aq}{2})
+\tanh(\frac{\pi aq}{2}).$$
+
+\end{document}
