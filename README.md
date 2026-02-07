@@ -6,6 +6,24 @@ The work focuses on analytical techniques commonly used in molecular physics, in
 
 ---
 
+## Repository Structure
+```python
+├── coursework1/
+│   ├── figures
+│       ├── Figure_1.2_All_Functions_with_Params.png
+│       └── Fig 4.1 Comparison of numerical and approximate F(p).png
+│       └── Fig 4.2 Comparison of numerical and approximate f(p).png
+│   └── coursework_1.tex
+│   └── Mathemetical_Methods_for_Molecular_Physics_Coursework_1.pdf
+│   └── python code.ipynb
+├── coursework2/       
+│   ├── coursework_2.tex 
+│   └── Mathemetical_Methods_for_Molecular_Physics_Coursework_2.pdf
+└── README.md
+```
+
+---
+
 ## 🧮 Coursework 1 — Overview
 
 **Topics covered**
