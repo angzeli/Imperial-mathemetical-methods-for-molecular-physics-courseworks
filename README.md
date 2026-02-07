@@ -81,9 +81,7 @@ The work focuses on analytical techniques commonly used in molecular physics, in
 
 ## 👤 Author
 
-**Angze Li**  
-Imperial College London  
-CID: 02373494  
+**Angze Li**  (Imperial College London)  
 
 ---
 
