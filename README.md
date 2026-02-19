@@ -19,6 +19,7 @@ The work focuses on analytical techniques commonly used in molecular physics, in
 ├── coursework2/       
 │   ├── coursework_2.tex 
 │   └── Mathemetical_Methods_for_Molecular_Physics_Coursework_2.pdf
+├── LICENSE
 └── README.md
 ```
 
